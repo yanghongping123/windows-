@@ -1,0 +1,30 @@
+import cv2
+import numpy as np
+
+img_rgb = cv2.imread("src_img_yun1.jpg") #大图
+img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+template = cv2.imread("ai_3.jpg", 0)#小图
+h, w = template.shape[:2]
+
+res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+threshold = 0.8
+# 取匹配程度大于%80的坐标
+loc = np.where(res >= threshold)
+# np.where返回的坐标值(x,y)是(h,w)，注意h,w的顺序
+i=[]
+k=0
+for pt in zip(*loc[::-1]):
+    i.append(pt[0])
+for pt in zip(*loc[::-1]):
+    k+=1
+    bottom_right = (pt[0] + w, pt[1] + h)
+    for j in i:
+        if abs(pt[0]-j)<=5:
+            continue
+    print(k,pt[0])
+    cv2.rectangle(img_rgb, pt, bottom_right, (0, 0, 255), 2)
+print(k)
+cv2.imwrite("img.jpg", img_rgb)
+cv2.imshow('img', img_rgb)
+cv2.imwrite(r'C:\Users\A\Desktop\files\3.bmp',img_rgb)
+cv2.waitKey(0)
