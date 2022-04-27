@@ -1,0 +1,19 @@
+import win32gui as wg
+import win32con as wc
+import time
+#time.sleep(2)
+obj = wg.GetForegroundWindow()#获取系统最前端的窗口
+#indow_class = wg.GetClassName(obj)#窗口名
+#window_name = "wg.GetWindowText(obj)"#文件名
+#print(window_class,"111",window_name)
+window_class = "Notepad"
+window_name = "纠错.txt - 记事本"
+ck = wg.FindWindow(window_class,window_name)
+wg.SetWindowPos(ck,
+    wc.HWND_NOTOPMOST,#HWND_TOPMOST放最顶端
+    0,#起点坐标x
+    0,#起点坐标y
+    500,#宽
+    500,#高 WTWindow
+    wc.SWP_SHOWWINDOW #是SetWindowPos的缩写,用于显示窗口,SWP_NOSIZE大小不变,HIDEWINDOW隐藏窗口,慎用
+    )
